@@ -17,5 +17,4 @@ Este é um sistema de abertura e gerenciamento de chamados desenvolvido em PHP e
 - Bootstrap
 - MySQL
 
-## Contribuições
-Sinta-se à vontade para contribuir com melhorias.
+# AINDA EM ANDAMENTO...
