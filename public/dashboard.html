@@ -38,8 +38,83 @@
                 <p>Veja e gerencie seus chamados em um só lugar.</p>
             </div>
         </div>
+        
+        <!-- Seção de colunas de tickets -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="ticket-column bg-light p-3 rounded" id="pendentes">
+                    <h5 class="text-center mb-3">Tarefas Pendentes</h5>
+                    <!-- Cartões de exemplo -->
+                    <div class="ticket-card p-2 mb-2">Chamado #1</div>
+                    <div class="ticket-card p-2 mb-2">Chamado #2</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ticket-column bg-light p-3 rounded" id="emAndamento">
+                    <h5 class="text-center mb-3">Em Andamento</h5>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ticket-column bg-light p-3 rounded" id="concluido">
+                    <h5 class="text-center mb-3">Concluído</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botão para abrir o modal -->
+    <button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#ticketModal">Novo Chamado</button>
+
+    <!-- Modal de criação/edição de chamado -->
+    <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketModalLabel">Novo Chamado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="ticketForm">
+                        <div class="mb-3">
+                            <label for="ticketTitle" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="ticketTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ticketDescription" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="ticketDescription" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const columns = document.querySelectorAll('.ticket-column');
+            columns.forEach(column => {
+                new Sortable(column, {
+                    group: 'shared',
+                    animation: 150
+                });
+            });
+
+            // Função para salvar novos chamados
+            document.getElementById('ticketForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const title = document.getElementById('ticketTitle').value;
+                const description = document.getElementById('ticketDescription').value;
+                const newTicket = document.createElement('div');
+                newTicket.classList.add('ticket-card', 'p-2', 'mb-2');
+                newTicket.textContent = `${title}: ${description}`;
+                document.getElementById('pendentes').appendChild(newTicket);
+                document.getElementById('ticketForm').reset();
+                document.querySelector('#ticketModal .btn-close').click();
+            });
+        });
+    </script>
 </body>
 </html>
